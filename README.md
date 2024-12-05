@@ -19,8 +19,12 @@ Then run `pip install -r requirement.txt`
 
 
 ## To Do List
-+ [ ] Finish creating a bounding box 
-+ [ ] 
++ [X] Finish creating a bounding box 
++ [ ] Save the blurred image file
+
+### Research
++ [ ] How does img array works?
++ [ ] Why is line 27 in `main.py` needed? And how does it work?
 
 ## Resources/References
 Photo by <a href="https://unsplash.com/@princearkman?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Prince Akachi</a> on <a href="https://unsplash.com/photos/smiling-man-wearing-black-turtleneck-shirt-holding-camrea-4Yv84VgQkRM?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
