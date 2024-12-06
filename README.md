@@ -18,8 +18,7 @@ Then run `pip install -r requirement.txt`
 > + `min_detection_confidence` value (`[0.0, 1.0]`) from the face detection model for the detection to be considered successful. Default to `0.5`
 
 
-<img src='./data/face.jpg' alt="Before image blur" width= "160" height="240">
-<img src="./output/blur_img.jpg" alt="After image blur" width= "160" height="240">
+<img src='./data/face.jpg' alt="Before image blur" width= "160" height="240"/> <img src="./output/blur_img.jpg" alt="After image blur" width= "160" height="240"/>
 
 ## To Do List
 + [X] Finish creating a bounding box 
