@@ -35,13 +35,13 @@ with mp_face_detection.FaceDetection(
 
             # Blur faces
             img[y1 : y1 + h, x1 : x1 + w, :] = cv.blur(
-                img[y1 : y1 + h, x1 : x1 + w, :], (30, 30)
+                img[y1 : y1 + h, x1 : x1 + w, :], (40, 40)
             )
 
 blur_img = img
 cv.imshow("img", img)
 cv.waitKey(0)
 cv.destroyAllWindows()
-
+print(blur_img.shape)
 # Save image
 cv.imwrite(os.path.join(output_dir, "blur_img.jpg"), blur_img)
