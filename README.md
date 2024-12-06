@@ -20,7 +20,7 @@ Then run `pip install -r requirement.txt`
 
 ## To Do List
 + [X] Finish creating a bounding box 
-+ [ ] Save the blurred image file
++ [x] Save the blurred image file
 
 ### Research
 + [ ] How does img array works?

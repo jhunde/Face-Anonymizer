@@ -2,6 +2,10 @@ import cv2 as cv
 import os
 import mediapipe as mp
 
+# Create output folder if it doesn't exist
+output_dir = "./output"
+if not os.path.exists(output_dir):
+    os.makedirs(output_dir)
 
 # Read image
 img = cv.imread(os.path.join("data", "face.jpg"))
@@ -34,10 +38,10 @@ with mp_face_detection.FaceDetection(
                 img[y1 : y1 + h, x1 : x1 + w, :], (30, 30)
             )
 
-
+blur_img = img
 cv.imshow("img", img)
 cv.waitKey(0)
 cv.destroyAllWindows()
 
-
 # Save image
+cv.imwrite(os.path.join(output_dir, "blur_img.jpg"), blur_img)
