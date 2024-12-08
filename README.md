@@ -18,7 +18,7 @@ Then run `pip install -r requirement.txt`
 > + `min_detection_confidence` value (`[0.0, 1.0]`) from the face detection model for the detection to be considered successful. Default to `0.5`
 
 **Before** image blur | **After** image blur
---- | --- |
+:---: | :---: |
 <img src='./data/face.jpg' alt="Before image blur" width= "210" height="290"/> |  <img src="./output/blur_img.jpg" alt="After image blur" width= "210" height="290"/>|
 
 
@@ -26,6 +26,8 @@ Then run `pip install -r requirement.txt`
 ## To Do List
 + [X] Finish creating a bounding box 
 + [x] Save the blurred image file
++ [ ] Finish blurring the `face.mp4`
++ [ ] Troubleshoot the video blurring
 
 ### Research
 + [ ] How does img array works?
@@ -34,3 +36,4 @@ Then run `pip install -r requirement.txt`
 ## Resources/References
 Photo by <a href="https://unsplash.com/@princearkman?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Prince Akachi</a> on <a href="https://unsplash.com/photos/smiling-man-wearing-black-turtleneck-shirt-holding-camrea-4Yv84VgQkRM?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
       
+Video by [Mikhail Nilov from Pexels:](https://www.pexels.com/video/a-woman-talking-at-the-podium-8731389/)
