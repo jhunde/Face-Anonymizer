@@ -31,7 +31,7 @@ def process_img(img, face_detection):
 
 
 args = argparse.ArgumentParser()
-args.add_argument("--mode", default="image")
+args.add_argument("--mode", default="webcam")
 args.add_argument("--filePath", default="./data")
 
 args = args.parse_args()
@@ -51,12 +51,20 @@ with mp_face_detection.FaceDetection(
 ) as face_detection:
 
     if args.mode in ["image"]:
+        print(f"Image mode: {args.mode}")
         # Read image
         img = cv.imread(os.path.join(args.filePath, "face.jpg"))
         blur_img = process_img(img, face_detection)
 
-    elif args.mode in ["video"]:
+        cv.imshow("video blurred", blur_img)
+        cv.waitKey(0)
+        cv.destroyAllWindows()
 
+        # Save image
+        cv.imwrite(os.path.join(output_dir, "blur_img.jpg"), blur_img)
+
+    if args.mode in ["video"]:
+        print(f"Video mode: {args.mode}")
         cap = cv.VideoCapture(os.path.join(args.filePath, "face.mp4"))
         ret, frame = cap.read()
 
@@ -73,15 +81,20 @@ with mp_face_detection.FaceDetection(
             output_video.write(frame)
             ret, frame = cap.read()
 
-        ret, frame = cap.read()
+        # ret, frame = cap.read()
 
-        output_video.release()
         cap.release()
+        output_video.release()
 
+    if args.mode in ["webcam"]:
+        webcam = cv.VideoCapture(1, cv.CAP_DSHOW)
 
-# cv.imshow("video blurred", blur_img)
-# cv.waitKey(0)
-# cv.destroyAllWindows()
-# print(blur_img.shape)
-# Save image
-# cv.imwrite(os.path.join(output_dir, "blur_img.jpg"), blur_img)
+        while True:
+            ret, frame = webcam.read()
+
+            cv.imshow("webcam", frame)
+            if cv.waitKey(40) and 0xFF == ord("q"):
+                break
+
+        webcam.release()
+        cv.destroyAllWindows()

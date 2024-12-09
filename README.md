@@ -26,8 +26,9 @@ Then run `pip install -r requirement.txt`
 ## To Do List
 + [X] Finish creating a bounding box 
 + [x] Save the blurred image file
-+ [ ] Finish blurring the `face.mp4`
-+ [ ] Troubleshoot the video blurring
++ [x] Finish blurring the `face.mp4`
++ [x] Troubleshoot the video blurring
++ [ ] Blur webcam
 
 ### Research
 + [ ] How does img array works?
