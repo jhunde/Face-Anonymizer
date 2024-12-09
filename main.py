@@ -88,13 +88,15 @@ with mp_face_detection.FaceDetection(
 
     if args.mode in ["webcam"]:
         webcam = cv.VideoCapture(1, cv.CAP_DSHOW)
+        ret, frame = webcam.read()
 
-        while True:
-            ret, frame = webcam.read()
-
+        while ret:
+            frame = process_img(frame, face_detection)
             cv.imshow("webcam", frame)
-            if cv.waitKey(40) and 0xFF == ord("q"):
-                break
 
+            # if cv.waitKey(40) and 0xFF == ord("q"):
+            #     break
+            cv.waitKey(25)
+            ret, frame = webcam.read()
         webcam.release()
         cv.destroyAllWindows()
