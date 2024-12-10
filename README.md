@@ -58,13 +58,56 @@ mp_face_detection = mp.solutions.face_detection
 ```
 
 ### Image Face Detection
+```py
+    if args.mode in ["image"]:
+        print(f"Image mode: {args.mode}")
+        # Read image
+        img = cv.imread(os.path.join(args.filePath, "face.jpg"))
+        blur_img = process_img(img, face_detection)
+
+        cv.imshow("video blurred", blur_img)
+        cv.waitKey(0)
+        cv.destroyAllWindows()
+
+        # Save image
+        cv.imwrite(os.path.join(output_dir, "blur_img.jpg"), blur_img)
+```
+
 **Before** image blur | **After** image blur
 :---: | :---: |
 <img src='./data/face.jpg' alt="Before image blur" width= "210" height="290"/> |  <img src="./output/blur_img.jpg" alt="After image blur" width= "210" height="290"/>|
 
 
 ### Vidoe Face Detection
+```py
 
+args.mode in ["video"]:
+        print(f"Video mode: {args.mode}")
+        cap = cv.VideoCapture(os.path.join(args.filePath, "face.mp4"))
+        ret, frame = cap.read()
+
+        # Save video - 25fps
+        output_video = cv.VideoWriter(
+            os.path.join(output_dir, "output.mp4"),
+            cv.VideoWriter_fourcc(*"MP4V"),
+            25,
+            (frame.shape[1], frame.shape[0]),
+        )
+
+        while ret:
+            frame = process_img(frame, face_detection)
+            output_video.write(frame)
+            ret, frame = cap.read()
+
+        # ret, frame = cap.read()
+
+        cap.release()
+        output_video.release()
+```
+
+**Before** image blur | **After** image blur
+:---:|:---:|
+![vidoe](/gifs/vidoe.gif) | ![orignal vidoe](/gifs/blurred_video.gif)
 
 
 ### Webcam Face Detection
