@@ -81,8 +81,6 @@ with mp_face_detection.FaceDetection(
             output_video.write(frame)
             ret, frame = cap.read()
 
-        # ret, frame = cap.read()
-
         cap.release()
         output_video.release()
 

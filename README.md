@@ -17,8 +17,31 @@ import mediapipe as mp
 import argparse
 ```
 
-## Image Processing
+## Face Detection
+[Mediapipe Face Detection](https://mediapipe.readthedocs.io/en/latest/solutions/face_detection.html)
+> **Note:** Mediapipe `FaceDetection` parameters
+> + `model_selector` is an integer ranging from `0` to `1`. By default it's set to `0` if not specified.
+>   + `0` - short-range model that <u>works best for faces within 2 meters</u> from the camera
+>   + `1` - full-range model <u>best for faces within 5 meters</u>
+>
+> + `min_detection_confidence` value (`[0.0, 1.0]`) from the face detection model for the detection to be considered successful. Default to `0.5`
 
+```py
+# Detect faces
+mp_face_detection = mp.solutions.face_detection
+```
+
+---
+#### Image Processing
+> **Note:** We will an image processing function to return a face that's blurred 
+
++ Input:
+  + `img`
+    + For an image use the original image
+    + For a video use each frame 
+    + For a webcam use each frame
+  + `face_detection`
+    + [Mediapipe `FaceDetection`](https://mediapipe.readthedocs.io/en/latest/solutions/face_detection.html) a open source face detection algorithm that will be using detect faces then blur them
 ```py
 def process_img(img, face_detection):
     H, W, _ = img.shape
@@ -43,19 +66,7 @@ def process_img(img, face_detection):
     return img
 ```
 
-## Face Detection
-[Mediapipe Face Detection](https://mediapipe.readthedocs.io/en/latest/solutions/face_detection.html)
-> **Note:** Mediapipe `FaceDetection` parameters
-> + `model_selector` is an integer ranging from `0` to `1`. By default it's set to `0` if not specified.
->   + `0` - short-range model that works best for faces within 2 meters from the camera
->   + `1` - full-range model best for faces within 5 meters  
->
-> + `min_detection_confidence` value (`[0.0, 1.0]`) from the face detection model for the detection to be considered successful. Default to `0.5`
-
-```py
-# Detect faces
-mp_face_detection = mp.solutions.face_detection
-```
+---
 
 ### Image Face Detection
 ```py
@@ -78,7 +89,7 @@ mp_face_detection = mp.solutions.face_detection
 <img src='./data/face.jpg' alt="Before image blur" width= "210" height="290"/> |  <img src="./output/blur_img.jpg" alt="After image blur" width= "210" height="290"/>|
 
 
-### Vidoe Face Detection
+### Video Face Detection
 ```py
 
 args.mode in ["video"]:
@@ -99,8 +110,6 @@ args.mode in ["video"]:
             output_video.write(frame)
             ret, frame = cap.read()
 
-        # ret, frame = cap.read()
-
         cap.release()
         output_video.release()
 ```
@@ -111,6 +120,30 @@ args.mode in ["video"]:
 
 
 ### Webcam Face Detection
+
+```py
+    if args.mode in ["video"]:
+        print(f"Video mode: {args.mode}")
+        cap = cv.VideoCapture(os.path.join(args.filePath, "face.mp4"))
+        ret, frame = cap.read()
+
+        # Save video - 25fps
+        output_video = cv.VideoWriter(
+            os.path.join(output_dir, "output.mp4"),
+            cv.VideoWriter_fourcc(*"MP4V"),
+            25,
+            (frame.shape[1], frame.shape[0]),
+        )
+
+        while ret:
+            frame = process_img(frame, face_detection)
+            output_video.write(frame)
+            ret, frame = cap.read()
+
+        cap.release()
+        output_video.release()
+```
+
 
 ## To Do List
 + [X] Finish creating a bounding box 
