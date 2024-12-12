@@ -30,6 +30,12 @@ def process_img(img, face_detection):
     return img
 
 
+def deallocate_memory(videoCampture):
+    videoCampture.release()
+    cv.destroyAllWindows()
+    return
+
+
 args = argparse.ArgumentParser()
 args.add_argument("--mode", default="webcam")  # {"image", "video", "webcam"}
 args.add_argument("--filePath", default="./data")
@@ -68,21 +74,20 @@ with mp_face_detection.FaceDetection(
         cap = cv.VideoCapture(os.path.join(args.filePath, "face.mp4"))
         ret, frame = cap.read()
 
-        # Save video - 25fps
-        output_video = cv.VideoWriter(
-            os.path.join(output_dir, "output.mp4"),
-            cv.VideoWriter_fourcc(*"MP4V"),
-            25,
-            (frame.shape[1], frame.shape[0]),
-        )
+        # Inputs for cv2.VideoWriter
+        output_file_location = os.path.join(output_dir, "output.mp4")
+        codec = cv.VideoWriter_fourcc(*"MP4V")
+        fps = 25
+        frameSize = (frame.shape[1], frame.shape[0])
+
+        output_video = cv.VideoWriter(output_file_location, codec, fps, frameSize)
 
         while ret:
             frame = process_img(frame, face_detection)
             output_video.write(frame)
             ret, frame = cap.read()
 
-        cap.release()
-        output_video.release()
+        deallocate_memory(cap)
 
     if args.mode in ["webcam"]:
         webcam = cv.VideoCapture(1, cv.CAP_DSHOW)
@@ -92,9 +97,10 @@ with mp_face_detection.FaceDetection(
             frame = process_img(frame, face_detection)
             cv.imshow("webcam", frame)
 
-            # if cv.waitKey(40) and 0xFF == ord("q"):
-            #     break
-            cv.waitKey(25)
+            # 33ms per frame
+            if cv.waitKey(33) & 0xFF == ord("q"):
+                break
+
             ret, frame = webcam.read()
-        webcam.release()
-        cv.destroyAllWindows()
+
+        deallocate_memory(webcam)

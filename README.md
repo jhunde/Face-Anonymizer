@@ -1,4 +1,10 @@
 # Face Anonymizer
++ Tools
+  + python
++ Framework
+  + Mediapipe
+  + OpenCv
+
 
 ## Installation / Import Requirements 
 Add the following texts into `requirement.txt`
@@ -65,6 +71,16 @@ def process_img(img, face_detection):
 
     return img
 ```
+#### Deallocate Memory
+> **Note:** We will be using this function to release **_webcam_** and **_video_** to **deallocate memory** so we can free up
+
+
+```py
+def deallocate_memory(videoCampture):
+    videoCampture.release()
+    cv.destroyAllWindows()
+    return
+```
 
 ---
 
@@ -96,22 +112,31 @@ args.mode in ["video"]:
         print(f"Video mode: {args.mode}")
         cap = cv.VideoCapture(os.path.join(args.filePath, "face.mp4"))
         ret, frame = cap.read()
+```
 
-        # Save video - 25fps
-        output_video = cv.VideoWriter(
-            os.path.join(output_dir, "output.mp4"),
-            cv.VideoWriter_fourcc(*"MP4V"),
-            25,
-            (frame.shape[1], frame.shape[0]),
-        )
+```py
+        # Inputs for cv2.VideoWriter
+        output_file_location = os.path.join(output_dir, "output.mp4")
+
+        # 4-character code of codec used to compress the frames
+        codec = cv.VideoWriter_fourcc(*"MP4V")
+
+        # frame rate of the created stream
+        fps = 25
+
+        # (width, height) - size of video frames
+        frameSize = (frame.shape[1], frame.shape[0])   
+```
+
+```py
+        output_video = cv.VideoWriter(output_file_location, codec, fps, frameSize)
 
         while ret:
             frame = process_img(frame, face_detection)
             output_video.write(frame)
             ret, frame = cap.read()
 
-        cap.release()
-        output_video.release()
+        deallocate_memory(cap)
 ```
 
 **Before** image blur | **After** image blur
@@ -122,26 +147,21 @@ args.mode in ["video"]:
 ### Webcam Face Detection
 
 ```py
-    if args.mode in ["video"]:
-        print(f"Video mode: {args.mode}")
-        cap = cv.VideoCapture(os.path.join(args.filePath, "face.mp4"))
-        ret, frame = cap.read()
-
-        # Save video - 25fps
-        output_video = cv.VideoWriter(
-            os.path.join(output_dir, "output.mp4"),
-            cv.VideoWriter_fourcc(*"MP4V"),
-            25,
-            (frame.shape[1], frame.shape[0]),
-        )
+        if args.mode in ["webcam"]:
+        webcam = cv.VideoCapture(1, cv.CAP_DSHOW)
+        ret, frame = webcam.read()
 
         while ret:
             frame = process_img(frame, face_detection)
-            output_video.write(frame)
-            ret, frame = cap.read()
+            cv.imshow("webcam", frame)
 
-        cap.release()
-        output_video.release()
+            # Break if 33ms has past or 'q' is selected
+            if cv.waitKey(33) & 0xFF == ord("q"):
+                break
+            
+            ret, frame = webcam.read()
+
+        deallocate_memory(webcam)
 ```
 
 
@@ -158,6 +178,8 @@ args.mode in ["video"]:
 + [ ] Why is line 27 in `main.py` needed? And how does it work?
 
 ## Resources/References
-Photo by <a href="https://unsplash.com/@princearkman?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Prince Akachi</a> on <a href="https://unsplash.com/photos/smiling-man-wearing-black-turtleneck-shirt-holding-camrea-4Yv84VgQkRM?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
++ Photo by <a href="https://unsplash.com/@princearkman?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Prince Akachi</a> on <a href="https://unsplash.com/photos/smiling-man-wearing-black-turtleneck-shirt-holding-camrea-4Yv84VgQkRM?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
       
-Video by [Mikhail Nilov from Pexels:](https://www.pexels.com/video/a-woman-talking-at-the-podium-8731389/)
++ Video by [Mikhail Nilov from Pexels:](https://www.pexels.com/video/a-woman-talking-at-the-podium-8731389/)
+
++ **OpenCV** - [cv2.VideoWriter()](https://docs.opencv.org/4.x/dd/d9e/classcv_1_1VideoWriter.html)
