@@ -24,7 +24,8 @@ import argparse
 ```
 
 ## Face Detection
-[Mediapipe Face Detection](https://mediapipe.readthedocs.io/en/latest/solutions/face_detection.html)
+> **Resource:** [Mediapipe Face Detection](https://mediapipe.readthedocs.io/en/latest/solutions/face_detection.html)
+
 > **Note:** Mediapipe `FaceDetection` parameters
 > + `model_selector` is an integer ranging from `0` to `1`. By default it's set to `0` if not specified.
 >   + `0` - short-range model that <u>works best for faces within 2 meters</u> from the camera
@@ -158,7 +159,7 @@ args.mode in ["video"]:
             # Break if 33ms has past or 'q' is selected
             if cv.waitKey(33) & 0xFF == ord("q"):
                 break
-            
+
             ret, frame = webcam.read()
 
         deallocate_memory(webcam)
@@ -171,13 +172,13 @@ args.mode in ["video"]:
 + [x] Finish blurring the `face.mp4`
 + [x] Troubleshoot the video blurring
 + [x] Blur webcam
-+ [ ] Complete README file 
++ [x] Complete README file 
 
 ### Research
 + [ ] How does img array works?
 + [ ] Why is line 27 in `main.py` needed? And how does it work?
 
-## Resources/References
+## Resources / References
 + Photo by <a href="https://unsplash.com/@princearkman?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Prince Akachi</a> on <a href="https://unsplash.com/photos/smiling-man-wearing-black-turtleneck-shirt-holding-camrea-4Yv84VgQkRM?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
       
 + Video by [Mikhail Nilov from Pexels:](https://www.pexels.com/video/a-woman-talking-at-the-podium-8731389/)
